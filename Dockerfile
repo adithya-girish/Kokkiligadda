@@ -30,7 +30,7 @@ USER appuser
 EXPOSE 9000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-=======
+
 # ── Stage 1: Build ────────────────────────────────────────────────────────────
 FROM eclipse-temurin:17-jdk-alpine AS builder
 
