@@ -4,7 +4,7 @@ const cors    = require('cors');
 
 const app  = express();
 const PORT = process.env.PORT || 3001;
-const SPRING_BASE = process.env.SPRING_BASE || 'http://localhost:9000/api/family-members';
+const SPRING_BASE = process.env.SPRING_BASE || 'https://kokkiligadda.onrender.com/api/family-members';
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({
