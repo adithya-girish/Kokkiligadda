@@ -1,0 +1,19 @@
+# Dockerfile for Node.js server.js proxy
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files first (layer cache)
+COPY package.json package-lock.json* ./
+RUN npm install --omit=dev
+
+# Copy server source
+COPY server.js ./
+
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+EXPOSE 3001
+
+CMD ["node", "server.js"]
