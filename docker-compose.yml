@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 version: '3.9'
 
 services:
@@ -100,4 +99,3 @@ volumes:
 networks:
   kokkiligadda-net:
     driver: bridge
->>>>>>> c441319f9f3cece4ab11ba5d92852d79ecce0081
