@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3.9'
 
 services:
@@ -38,3 +39,65 @@ services:
 networks:
   kokkiligadda-net:
     driver: bridge
+=======
+version: '3.9'
+
+services:
+
+  # ── MongoDB ──────────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7
+    container_name: kokkiligadda-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: kokkiligadda_db
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - kokkiligadda-net
+
+  # ── Spring Boot API ───────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kokkiligadda-api
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: kokkiligadda_db
+      SERVER_PORT: 9000
+    depends_on:
+      - mongodb
+    networks:
+      - kokkiligadda-net
+
+  # ── Node.js Proxy (server.js) ─────────────────────────────────────────────────
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: kokkiligadda-proxy
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      SPRING_BASE: http://api:9000/api/family-members
+    depends_on:
+      - api
+    networks:
+      - kokkiligadda-net
+
+volumes:
+  mongo_data:
+
+networks:
+  kokkiligadda-net:
+    driver: bridge
+>>>>>>> c441319f9f3cece4ab11ba5d92852d79ecce0081
